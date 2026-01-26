@@ -30,3 +30,9 @@ To run the project locally:
 1. Clone the repository:
    ```bash
    git clone https://github.com/samuelkibirigek/color-recall-trainer.git
+
+## 6. Roadmap
+Planned features for future releases:
+* **Adaptive Difficulty:** Implement an algorithm that tracks missed colors and increases their frequency during the Recognition phase.
+* **Performance Analytics:** Local storage integration to track user speed and accuracy improvements over time.
+* **Leaderboards:** A local or cloud-based competitive mode for team training sessions.
