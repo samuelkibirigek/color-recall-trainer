@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Recall Trainer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+
+    <div id="game-container">
+        <div class="stats">
+            <span>Score: <span id="score">0</span></span>
+            <span>Level: <span id="level">1</span></span>
+        </div>
+
+        <div id="color-display"></div>
+
+        <div id="recognition-mode" class="options-grid">
+            <button onclick="handleChoice(this)" id="opt1"></button>
+            <button onclick="handleChoice(this)" id="opt2"></button>
+            <button onclick="handleChoice(this)" id="opt3"></button>
+        </div>
+
+        <div id="manual-entry" class="hidden">
+            <input type="number" id="code-input" placeholder="???" inputmode="numeric" pattern="[0-9]*"
+                oninput="handleInput(this)">
+            <div id="feedback-text"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
