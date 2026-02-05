@@ -1,15 +1,14 @@
 // 1. Data Structure
 const colorDB = [
-    { name: "Red", hex: "#FF0000", code: "114" },
-    { name: "Blue", hex: "#0000FF", code: "332" },
-    { name: "Black", hex: "#000000", code: "693" },
-    { name: "White", hex: "#FFFFFF", code: "674" },
-    { name: "Dark Grey", hex: "#A9A9A9", code: "816" },
-    { name: "Light Grey", hex: "#D3D3D3", code: "309" },
-    { name: "Navy Blue", hex: "#000080", code: "603" },
-    { name: "Cream", hex: "#FFFDD0", code: "221" },
-    { name: "Purple", hex: "#800080", code: "441" },
-    { name: "Orange", hex: "#FFA500", code: "502" }
+    { name: "Canyon River Blue Metallic", code: "640", hex: "#2E4A62" },
+    { name: "Crystal Black Pearl", code: "731", hex: "#010101" },
+    { name: "Majestic Black Pearl", code: "893", hex: "#080808" },
+    { name: "Meteorite Gray Metallic", code: "904", hex: "#53575A" },
+    { name: "Platinum White Pearl", code: "883", hex: "#F2F2F2" },
+    { name: "Radiant Red Metallic", code: "569", hex: "#A6192E" },
+    { name: "Solar Silver Metallic", code: "932", hex: "#A5A9AB" },
+    { name: "Still Night Pearl", code: "575", hex: "#003399" },
+    { name: "Urban Gray Pearl", code: "912", hex: "#6D7172" }
 ];
 
 // 2. State Variables
@@ -96,7 +95,7 @@ function updateScore(pts) {
     score += pts;
     document.getElementById('score').innerText = score;
 
-    if (score >= 50 && currentLevel === 1) {
+    if (score >= 90 && currentLevel === 1) {
         currentLevel = 2;
         document.getElementById('level').innerText = "2";
         document.getElementById('recognition-mode').classList.add('hidden');
