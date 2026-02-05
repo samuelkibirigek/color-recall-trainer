@@ -16,13 +16,20 @@ let score = 0;
 let currentLevel = 1;
 let currentTarget = null;
 let isProcessing = false;
+let colorQueue = []; // queue to track unvisited colors
 
 // 3. Game Logic
 function initRound() {
     if (isProcessing) return;
 
-    // Pick random color
-    currentTarget = colorDB[Math.floor(Math.random() * colorDB.length)];
+    // Refill and shuffle queue if empty
+    if (colorQueue.length === 0) {
+        colorQueue = [...colorDB].sort(() => Math.random() - 0.5);
+    }
+
+    // Pull the next color from the queue (ensures no repeats until all are seen)
+    currentTarget = colorQueue.pop();
+
     document.getElementById('color-display').style.backgroundColor = currentTarget.hex;
 
     if (currentLevel === 1) {
