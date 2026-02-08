@@ -16,7 +16,8 @@ let score = 0;
 let currentLevel = 1;
 let currentTarget = null;
 let isProcessing = false;
-let colorQueue = []; // queue to track unvisited colors
+let colorQueue = [];
+let missedColors = []; // New array to track incorrect responses
 
 // 3. Game Logic
 function initRound() {
@@ -66,7 +67,13 @@ function handleChoice(btn) {
         setTimeout(() => { isProcessing = false; initRound(); }, 500);
     } else {
         btn.classList.add('btn-wrong');
-        // Apply faint green to the correct option
+
+        // DATA COLLECTION: Log the color the user struggled with
+        if (!missedColors.includes(currentTarget.code)) {
+            missedColors.push(currentTarget.code);
+            console.log("Logged missed color:", currentTarget.name); // Helpful for debugging
+        }
+
         document.querySelectorAll('.options-grid button').forEach(b => {
             if (b.innerText === currentTarget.code) b.classList.add('btn-faint');
         });
@@ -91,6 +98,12 @@ function handleInput(input) {
             setTimeout(() => { isProcessing = false; initRound(); }, 600);
         } else {
             input.style.borderColor = "var(--wrong)";
+
+            // DATA COLLECTION: Track manual recall errors
+            if (!missedColors.includes(currentTarget.code)) {
+                missedColors.push(currentTarget.code);
+            }
+
             document.getElementById('feedback-text').innerText = `Correct code: ${currentTarget.code}`;
             document.getElementById('feedback-text').style.color = "var(--wrong)";
             setTimeout(() => { isProcessing = false; initRound(); }, 1800);
