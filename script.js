@@ -118,10 +118,25 @@ function updateScore(pts) {
     if (score >= 90 && currentLevel === 1) {
         currentLevel = 2;
         document.getElementById('level').innerText = "2";
-        document.getElementById('recognition-mode').classList.add('hidden');
-        document.getElementById('manual-entry').classList.remove('hidden');
-        alert("Goal Reached! Level 2 Unlocked: Manual Entry Mode.");
+
+        // Prepare the summary content
+        let summaryHtml = "<strong>Excellent work!</strong><br>You've mastered the recognition phase.";
+
+        if (missedColors.length > 0) {
+            const names = missedColors.map(code => colorDB.find(c => c.code === code)?.name || code);
+            summaryHtml += `<br><br>Practice these codes in Level 2:<br><strong>${names.join(', ')}</strong>`;
+        }
+
+        document.getElementById('summary-text').innerHTML = summaryHtml;
+        document.getElementById('level-up-modal').classList.remove('hidden');
     }
+}
+
+function closeModal() {
+    document.getElementById('level-up-modal').classList.add('hidden');
+    document.getElementById('recognition-mode').classList.add('hidden');
+    document.getElementById('manual-entry').classList.remove('hidden');
+    initRound();
 }
 
 // Start the first round
