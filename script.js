@@ -119,7 +119,14 @@ function updateScore(pts) {
         currentLevel = 2;
         document.getElementById('level').innerText = "2";
 
-        // Prepare the summary content
+        // Trigger Confetti Celebration
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#cc0000', '#000000', '#ffffff', '#0047ab'] // Honda-themed: Red, Black, White, Blue
+        });
+
         let summaryHtml = "<strong>Excellent work!</strong><br>You've mastered the recognition phase.";
 
         if (missedColors.length > 0) {
