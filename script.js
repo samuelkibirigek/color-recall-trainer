@@ -17,7 +17,7 @@ let currentLevel = 1;
 let currentTarget = null;
 let isProcessing = false;
 let colorQueue = [];
-let missedColors = []; // New array to track incorrect responses
+let missedColors = []; // Experimental UI data collection for user struggles currently not in use but can be logged for future analysis and design iterations
 
 // 3. Game Logic
 function initRound() {
@@ -68,11 +68,11 @@ function handleChoice(btn) {
     } else {
         btn.classList.add('btn-wrong');
 
-        // DATA COLLECTION: Log the color the user struggled with
-        if (!missedColors.includes(currentTarget.code)) {
-            missedColors.push(currentTarget.code);
-            console.log("Logged missed color:", currentTarget.name); // Helpful for debugging
-        }
+        // // DATA COLLECTION: Log the color the user struggled with
+        // if (!missedColors.includes(currentTarget.code)) {
+        //     missedColors.push(currentTarget.code);
+        //     console.log("Logged missed color:", currentTarget.name); // Helpful for debugging
+        // }
 
         document.querySelectorAll('.options-grid button').forEach(b => {
             if (b.innerText === currentTarget.code) b.classList.add('btn-faint');
@@ -100,9 +100,9 @@ function handleInput(input) {
             input.style.borderColor = "var(--wrong)";
 
             // DATA COLLECTION: Track manual recall errors
-            if (!missedColors.includes(currentTarget.code)) {
-                missedColors.push(currentTarget.code);
-            }
+            // if (!missedColors.includes(currentTarget.code)) {
+            //     missedColors.push(currentTarget.code);
+            // }
 
             document.getElementById('feedback-text').innerText = `Correct code: ${currentTarget.code}`;
             document.getElementById('feedback-text').style.color = "var(--wrong)";
