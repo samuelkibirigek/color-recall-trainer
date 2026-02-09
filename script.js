@@ -115,26 +115,15 @@ function updateScore(pts) {
     score += pts;
     document.getElementById('score').innerText = score;
 
+    // Transition threshold 90
     if (score >= 90 && currentLevel === 1) {
         currentLevel = 2;
         document.getElementById('level').innerText = "2";
 
-        // Trigger Confetti Celebration
-        confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors: ['#cc0000', '#000000', '#ffffff', '#0047ab'] // Honda-themed: Red, Black, White, Blue
-        });
+        // Clean, simple messaging
+        document.getElementById('summary-text').innerHTML = "<strong>Good Job!</strong>";
 
-        let summaryHtml = "<strong>Excellent work!</strong><br>You've mastered the recognition phase.";
-
-        if (missedColors.length > 0) {
-            const names = missedColors.map(code => colorDB.find(c => c.code === code)?.name || code);
-            summaryHtml += `<br><br>Practice these codes in Level 2:<br><strong>${names.join(', ')}</strong>`;
-        }
-
-        document.getElementById('summary-text').innerHTML = summaryHtml;
+        // Trigger the professional transition modal
         document.getElementById('level-up-modal').classList.remove('hidden');
     }
 }
