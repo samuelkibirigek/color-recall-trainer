@@ -1,14 +1,14 @@
-// 1. Data Structure
+// 1. Data Structure - Professional Vehicle Palette (De-branded)
 const colorDB = [
-    { name: "Canyon River Blue Metallic", code: "640", hex: "#2E4A62" },
-    { name: "Crystal Black Pearl", code: "731", hex: "#010101" },
-    { name: "Majestic Black Pearl", code: "893", hex: "#080808" },
-    { name: "Meteorite Gray Metallic", code: "904", hex: "#53575A" },
-    { name: "Platinum White Pearl", code: "883", hex: "#F2F2F2" },
-    { name: "Radiant Red Metallic", code: "569", hex: "#A6192E" },
-    { name: "Solar Silver Metallic", code: "932", hex: "#A5A9AB" },
-    { name: "Still Night Pearl", code: "575", hex: "#003399" },
-    { name: "Urban Gray Pearl", code: "912", hex: "#6D7172" }
+    { name: "Deep Blue Metallic", code: "640", hex: "#2E4A62" },
+    { name: "Standard Black Pearl", code: "731", hex: "#010101" },
+    { name: "Premium Black Pearl", code: "893", hex: "#080808" },
+    { name: "Meteor Gray Metallic", code: "904", hex: "#53575A" },
+    { name: "Frost White Pearl", code: "883", hex: "#F2F2F2" },
+    { name: "Crimson Red Metallic", code: "569", hex: "#A6192E" },
+    { name: "Bright Silver Metallic", code: "932", hex: "#A5A9AB" },
+    { name: "Night Blue Pearl", code: "575", hex: "#003399" },
+    { name: "Modern Gray Pearl", code: "912", hex: "#6D7172" }
 ];
 
 // 2. State Variables
@@ -17,27 +17,23 @@ let currentLevel = 1;
 let currentTarget = null;
 let isProcessing = false;
 let colorQueue = [];
-let missedColors = []; // Experimental UI data collection for user struggles currently not in use but can be logged for future analysis and design iterations
-let masteryList = [...colorDB];// Level 2 Mastery Tracking
+let masteryList = [...colorDB];
 
 // 3. Game Logic
 function initRound() {
     if (isProcessing) return;
 
     if (currentLevel === 1) {
-        // Level 1 logic: Shuffle queue to see everything once
         if (colorQueue.length === 0) {
             colorQueue = [...colorDB].sort(() => Math.random() - 0.5);
         }
         currentTarget = colorQueue.pop();
         setupLevel1();
     } else {
-        // Level 2 logic: Mastery Pool
         if (masteryList.length === 0) {
             showVictoryScreen();
             return;
         }
-        // Pick a random color from the remaining un-mastered pool
         currentTarget = masteryList[Math.floor(Math.random() * masteryList.length)];
         setupLevel2();
     }
@@ -72,13 +68,6 @@ function handleChoice(btn) {
         setTimeout(() => { isProcessing = false; initRound(); }, 500);
     } else {
         btn.classList.add('btn-wrong');
-
-        // // DATA COLLECTION: Log the color the user struggled with
-        // if (!missedColors.includes(currentTarget.code)) {
-        //     missedColors.push(currentTarget.code);
-        //     console.log("Logged missed color:", currentTarget.name); // Helpful for debugging
-        // }
-
         document.querySelectorAll('.options-grid button').forEach(b => {
             if (b.innerText === currentTarget.code) b.classList.add('btn-faint');
         });
@@ -98,22 +87,20 @@ function handleInput(input) {
     if (input.value.length === 3) {
         isProcessing = true;
         if (input.value === currentTarget.code) {
-            input.style.borderColor = "#28a745"; // Success green
+            input.style.borderColor = "#28a745";
 
-            // REMOVE from mastery list so it doesn't appear again
+            // Mastery logic: filter out the mastered color
             masteryList = masteryList.filter(c => c.code !== currentTarget.code);
 
             updateScore(10);
 
-            // Check for victory immediately
             if (masteryList.length === 0) {
                 setTimeout(() => { showVictoryScreen(); }, 600);
             } else {
                 setTimeout(() => { isProcessing = false; initRound(); }, 600);
             }
         } else {
-            // If wrong, it stays in masteryList to be repeated later
-            input.style.borderColor = "#dc3545"; // Error red
+            input.style.borderColor = "#dc3545";
             document.getElementById('feedback-text').innerText = `Correct code: ${currentTarget.code}`;
             setTimeout(() => { isProcessing = false; initRound(); }, 1800);
         }
@@ -124,15 +111,10 @@ function updateScore(pts) {
     score += pts;
     document.getElementById('score').innerText = score;
 
-    // Transition threshold 90
     if (score >= 90 && currentLevel === 1) {
         currentLevel = 2;
         document.getElementById('level').innerText = "2";
-
-        // Clean, simple messaging
         document.getElementById('summary-text').innerHTML = "<strong>Good Job!</strong>";
-
-        // Trigger the professional transition modal
         document.getElementById('level-up-modal').classList.remove('hidden');
     }
 }
@@ -144,5 +126,26 @@ function closeModal() {
     initRound();
 }
 
-// Start the first round
+function showVictoryScreen() {
+    isProcessing = true;
+    document.getElementById('manual-entry').classList.add('hidden');
+    document.getElementById('victory-modal').classList.remove('hidden');
+}
+
+function resetGame() {
+    score = 0;
+    currentLevel = 1;
+    isProcessing = false;
+    colorQueue = [];
+    masteryList = [...colorDB];
+
+    document.getElementById('score').innerText = "0";
+    document.getElementById('level').innerText = "1";
+    document.getElementById('victory-modal').classList.add('hidden');
+    document.getElementById('recognition-mode').classList.remove('hidden');
+
+    initRound();
+}
+
+// Initial Boot
 initRound();
