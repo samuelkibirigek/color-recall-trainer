@@ -122,7 +122,8 @@ input {
     transition: border-color 0.3s;
 }
 
-#level-up-modal {
+#level-up-modal,
+#victory-modal {
     position: fixed;
     top: 0;
     left: 0;
