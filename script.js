@@ -18,26 +18,31 @@ let currentTarget = null;
 let isProcessing = false;
 let colorQueue = [];
 let missedColors = []; // Experimental UI data collection for user struggles currently not in use but can be logged for future analysis and design iterations
+let masteryList = [...colorDB];// Level 2 Mastery Tracking
 
 // 3. Game Logic
 function initRound() {
     if (isProcessing) return;
 
-    // Refill and shuffle queue if empty
-    if (colorQueue.length === 0) {
-        colorQueue = [...colorDB].sort(() => Math.random() - 0.5);
-    }
-
-    // Pull the next color from the queue (ensures no repeats until all are seen)
-    currentTarget = colorQueue.pop();
-
-    document.getElementById('color-display').style.backgroundColor = currentTarget.hex;
-
     if (currentLevel === 1) {
+        // Level 1 logic: Shuffle queue to see everything once
+        if (colorQueue.length === 0) {
+            colorQueue = [...colorDB].sort(() => Math.random() - 0.5);
+        }
+        currentTarget = colorQueue.pop();
         setupLevel1();
     } else {
+        // Level 2 logic: Mastery Pool
+        if (masteryList.length === 0) {
+            showVictoryScreen();
+            return;
+        }
+        // Pick a random color from the remaining un-mastered pool
+        currentTarget = masteryList[Math.floor(Math.random() * masteryList.length)];
         setupLevel2();
     }
+
+    document.getElementById('color-display').style.backgroundColor = currentTarget.hex;
 }
 
 function setupLevel1() {
@@ -93,19 +98,23 @@ function handleInput(input) {
     if (input.value.length === 3) {
         isProcessing = true;
         if (input.value === currentTarget.code) {
-            input.style.borderColor = "var(--correct)";
+            input.style.borderColor = "#28a745"; // Success green
+
+            // REMOVE from mastery list so it doesn't appear again
+            masteryList = masteryList.filter(c => c.code !== currentTarget.code);
+
             updateScore(10);
-            setTimeout(() => { isProcessing = false; initRound(); }, 600);
+
+            // Check for victory immediately
+            if (masteryList.length === 0) {
+                setTimeout(() => { showVictoryScreen(); }, 600);
+            } else {
+                setTimeout(() => { isProcessing = false; initRound(); }, 600);
+            }
         } else {
-            input.style.borderColor = "var(--wrong)";
-
-            // DATA COLLECTION: Track manual recall errors
-            // if (!missedColors.includes(currentTarget.code)) {
-            //     missedColors.push(currentTarget.code);
-            // }
-
+            // If wrong, it stays in masteryList to be repeated later
+            input.style.borderColor = "#dc3545"; // Error red
             document.getElementById('feedback-text').innerText = `Correct code: ${currentTarget.code}`;
-            document.getElementById('feedback-text').style.color = "var(--wrong)";
             setTimeout(() => { isProcessing = false; initRound(); }, 1800);
         }
     }
