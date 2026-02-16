@@ -1,14 +1,14 @@
 // 1. Data Structure - Professional Vehicle Palette (De-branded)
 const colorDB = [
-    { name: "Deep Blue Metallic", code: "640", hex: "#2E4A62" },
-    { name: "Standard Black Pearl", code: "731", hex: "#010101" },
-    { name: "Premium Black Pearl", code: "893", hex: "#080808" },
-    { name: "Meteor Gray Metallic", code: "904", hex: "#53575A" },
-    { name: "Frost White Pearl", code: "883", hex: "#F2F2F2" },
-    { name: "Crimson Red Metallic", code: "569", hex: "#A6192E" },
-    { name: "Bright Silver Metallic", code: "932", hex: "#A5A9AB" },
-    { name: "Night Blue Pearl", code: "575", hex: "#003399" },
-    { name: "Modern Gray Pearl", code: "912", hex: "#6D7172" }
+    { name: "Deep Blue Metallic", code: "640", hex: "#2E4A62", models: "RDV, MDV, CRX" },
+    { name: "Standard Black Pearl", code: "731", hex: "#010101", models: "RDV" },
+    { name: "Premium Black Pearl", code: "893", hex: "#080808", models: "MDV, CRX" },
+    { name: "Meteor Gray Metallic", code: "904", hex: "#53575A", models: "RDV" },
+    { name: "Frost White Pearl", code: "883", hex: "#F2F2F2", models: "RDV, MDV, CRX" },
+    { name: "Crimson Red Metallic", code: "569", hex: "#A6192E", models: "RDV" },
+    { name: "Bright Silver Metallic", code: "932", hex: "#A5A9AB", models: "RDV, MDV, CRX" },
+    { name: "Night Blue Pearl", code: "575", hex: "#003399", models: "RDV" },
+    { name: "Modern Gray Pearl", code: "912", hex: "#6D7172", models: "RDV, MDV, CRX" }
 ];
 
 // 2. State Variables
@@ -39,6 +39,8 @@ function initRound() {
     }
 
     document.getElementById('color-display').style.backgroundColor = currentTarget.hex;
+
+    document.getElementById('model-info').innerText = `Models: ${currentTarget.models}`;
 }
 
 function setupLevel1() {
