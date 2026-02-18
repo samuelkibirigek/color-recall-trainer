@@ -4,7 +4,7 @@ const colorDB = [
     { name: "Standard Black Pearl", code: "731", hex: "#010101", models: "CRX" },
     { name: "Premium Black Pearl", code: "893", hex: "#080808", models: "RDV, MDV" },
     { name: "Meteor Gray Metallic", code: "904", hex: "#53575A", models: "CRX" },
-    { name: "Frost White Pearl", hex: "#F2F2F2", models: "RDV, MDV, CRX" },
+    { name: "Frost White Pearl", code: "883", hex: "#F2F2F2", models: "RDV, MDV, CRX" },
     { name: "Crimson Red Metallic", code: "569", hex: "#A6192E", models: "CRX" }, // Corrected: CRX only
     { name: "Bright Silver Metallic", code: "932", hex: "#A5A9AB", models: "RDV, MDV, CRX" },
     { name: "Night Blue Pearl", code: "575", hex: "#003399", models: "CRX" },
